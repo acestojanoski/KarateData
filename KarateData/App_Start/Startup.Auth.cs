@@ -54,15 +54,15 @@ namespace KarateData
             //   consumerKey: "",
             //   consumerSecret: "");
 
-            //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            app.UseFacebookAuthentication(
+               appId: "153004705328758",
+               appSecret: "86a3a49f998af91eda0a874545a6e303");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "474342560680-s25b6ajm7for69f4orc9q15l99ctnn4n.apps.googleusercontent.com",
+                ClientSecret = "x5c4gCiDehS8fWaDgcEroI4q"
+            });
         }
     }
 }
