@@ -199,6 +199,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\API\CompetitorsController.cs" />
+    <Compile Include="Controllers\API\EventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -220,12 +222,19 @@
     <Compile Include="Migrations\201712251029373_Init2.Designer.cs">
       <DependentUpon>201712251029373_Init2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712251059185_Init3.cs" />
+    <Compile Include="Migrations\201712251059185_Init3.Designer.cs">
+      <DependentUpon>201712251059185_Init3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712251102128_Init4.cs" />
+    <Compile Include="Migrations\201712251102128_Init4.Designer.cs">
+      <DependentUpon>201712251102128_Init4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Competitor.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\KarateDataDbContext.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -326,6 +335,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712251029373_Init2.resx">
       <DependentUpon>201712251029373_Init2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712251059185_Init3.resx">
+      <DependentUpon>201712251059185_Init3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712251102128_Init4.resx">
+      <DependentUpon>201712251102128_Init4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

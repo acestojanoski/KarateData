@@ -29,20 +29,19 @@ namespace KarateData.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
 
+        public DbSet<Event> Events { get; set; }
+        public DbSet<Competitor> Competitors { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
-
-        public System.Data.Entity.DbSet<KarateData.Models.Competitor> Competitors { get; set; }
-
-        public System.Data.Entity.DbSet<KarateData.Models.ApplicationUser> ApplicationUsers { get; set; }
-
-        public System.Data.Entity.DbSet<KarateData.Models.Event> Events { get; set; }
     }
 }
