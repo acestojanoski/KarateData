@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using KarateData.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace KarateData.Controllers
 {
@@ -32,9 +33,9 @@ namespace KarateData.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -61,6 +62,7 @@ namespace KarateData.Controllers
                 : message == ManageMessageId.Error ? "An error has occurred."
                 : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                : message == ManageMessageId.ChangeUserInformationSuccess ? "Your user information has been changed."
                 : "";
 
             var userId = User.Identity.GetUserId();
@@ -245,6 +247,71 @@ namespace KarateData.Controllers
         }
 
         //
+        // GET: /Manage/ChangeUserInformation
+        public ActionResult ChangeUserInformation()
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            ViewBag.UserName = user.UserName;
+            ViewBag.Email = user.Email;
+            ViewBag.ClubName = user.ClubName;
+            ViewBag.City = user.City;
+            ViewBag.Country = user.Country;
+            ViewBag.PhoneNumber = user.Number;
+            return View();
+        }
+
+        //
+        // POST: /Manage/ChangeUserInformation
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangeUserInformation(ChangeUserInformationViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            user.UserName = model.UserName;
+            user.Email = model.Email;
+            user.ClubName = model.ClubName;
+            user.City = model.City;
+            user.Country = model.Country;
+            user.Number = model.PhoneNumber;
+            var result = await UserManager.UpdateAsync(user);
+
+            if (result.Succeeded)
+            {
+                if (user != null)
+                {
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                }
+                return RedirectToAction("Index", new { Message = ManageMessageId.ChangeUserInformationSuccess });
+            }
+            AddErrors(result);
+            return View(model);
+        }
+
+        //GET: /Manage/Events
+        public ActionResult Events()
+        {
+            return View();
+        }
+
+        //GET: /Manage/Competitors
+        public ActionResult Competitors()
+        {
+            ViewBag.ApplicationUser_Id = User.Identity.GetUserId();
+            return View();
+        }
+
+        //GET: /Manage/RegisterCompetitor
+        public ActionResult RegisterCompetitor()
+        {
+            ViewBag.ApplicationUser_Id = User.Identity.GetUserId();
+            return View();
+        }
+
+        //
         // GET: /Manage/SetPassword
         public ActionResult SetPassword()
         {
@@ -333,7 +400,7 @@ namespace KarateData.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -368,7 +435,7 @@ namespace KarateData.Controllers
             var user = UserManager.FindById(User.Identity.GetUserId());
             if (user != null)
             {
-                return user.PhoneNumber != null;
+                return user.Number != null;
             }
             return false;
         }
@@ -381,9 +448,10 @@ namespace KarateData.Controllers
             SetPasswordSuccess,
             RemoveLoginSuccess,
             RemovePhoneSuccess,
-            Error
+            Error,
+            ChangeUserInformationSuccess
         }
 
-#endregion
+        #endregion
     }
 }

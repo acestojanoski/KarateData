@@ -58,6 +58,33 @@ namespace KarateData.Models
         public string ConfirmPassword { get; set; }
     }
 
+    public class ChangeUserInformationViewModel
+    {
+        [Required]
+        [Display(Name = "User name")]
+        public string UserName { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Club name")]
+        public string ClubName { get; set; }
+
+        [Required]
+        [Display(Name = "City")]
+        public string City { get; set; }
+
+        [Required]
+        [Display(Name = "Country")]
+        public string Country { get; set; }
+
+        [Required]
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
+    }
+
     public class AddPhoneNumberViewModel
     {
         [Required]
