@@ -16,7 +16,6 @@ namespace KarateData.Models
         public string Number { get; set; }
 
         public virtual List<Competitor> Competitors { get; set; }
-        public virtual List<Event> Events { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -36,7 +35,6 @@ namespace KarateData.Models
         {
         }
 
-        public DbSet<Event> Events { get; set; }
         public DbSet<Competitor> Competitors { get; set; }
 
         public static ApplicationDbContext Create()

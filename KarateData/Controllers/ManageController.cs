@@ -251,12 +251,15 @@ namespace KarateData.Controllers
         public ActionResult ChangeUserInformation()
         {
             var user = UserManager.FindById(User.Identity.GetUserId());
-            ViewBag.UserName = user.UserName;
-            ViewBag.Email = user.Email;
-            ViewBag.ClubName = user.ClubName;
-            ViewBag.City = user.City;
-            ViewBag.Country = user.Country;
-            ViewBag.PhoneNumber = user.Number;
+            if (user != null)
+            {
+                ViewBag.UserName = user.UserName;
+                ViewBag.Email = user.Email;
+                ViewBag.ClubName = user.ClubName;
+                ViewBag.City = user.City;
+                ViewBag.Country = user.Country;
+                ViewBag.PhoneNumber = user.Number;
+            }
             return View();
         }
 
@@ -291,23 +294,25 @@ namespace KarateData.Controllers
             return View(model);
         }
 
-        //GET: /Manage/Events
-        public ActionResult Events()
-        {
-            return View();
-        }
-
         //GET: /Manage/Competitors
         public ActionResult Competitors()
         {
-            ViewBag.ApplicationUser_Id = User.Identity.GetUserId();
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user != null)
+            {
+                ViewBag.Id = user.Id;
+            }
             return View();
         }
 
         //GET: /Manage/RegisterCompetitor
         public ActionResult RegisterCompetitor()
         {
-            ViewBag.ApplicationUser_Id = User.Identity.GetUserId();
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user != null)
+            {
+                ViewBag.Id = user.Id;
+            }
             return View();
         }
 

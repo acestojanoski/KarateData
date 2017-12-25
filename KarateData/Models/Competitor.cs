@@ -13,9 +13,8 @@ namespace KarateData.Models
         public string BirthDate { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
-
+        
         public string ApplicationUserId { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
-        public virtual List<Event> Events { get; set; }
     }
 }

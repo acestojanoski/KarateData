@@ -1,46 +1,54 @@
-﻿﻿
-@{
-    ViewBag.Title = "Competitors";
+﻿@{
+    Layout = null;
 }
-<h2>Competitors</h2>
-<hr />
-@Html.ActionLink("Register new competitor", "RegisterCompetitor", "Manage")
-<hr />
-<div>
-    <h4>Search by ID</h4>
-    <input type="text" class="form-control" id="competitorId" />
-    <button id="find" type="button" style="margin-top:5px" class="btn btn-info">Search</button>
-    <p id="competitor" />
-</div>
-<hr />
-<div>
-    <h4>All competitors from your club</h4>
-    <ul id="competitors" />
-</div>
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script>
-    var uri = 'Api/Competitors';
 
-    $(document).ready(function () {
-        $.getJSON(uri).done(function (data) {
-            $.each(data, function (key, item) {
-                $('<li>', { text: formatItem(item) }).appendTo($('#competitors'));
+@if (Request.IsAuthenticated)
+{
+    <!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Competitors</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    </head>
+    <body>
+        <div class="container">
+            @Html.ActionLink("Home", "Index", "Home")
+            <hr />
+            @Html.ActionLink("Register new competitor", "RegisterCompetitor", "Manage")
+            <hr />
+            <h4>All competitors</h4>
+            <ul id="competitors" />
+        </div>
+        <script>
+            var uri = "/API/Competitors"
+            $(document).ready(function () {
+                // Send an AJAX request
+                $.getJSON(uri)
+                    .done(function (data) {
+                        // On success, 'data' contains a list of products.
+                        $.each(data, function (key, item) {
+                            // Add a list item for the product.
+                            if (item.ApplicationUserId == "@ViewBag.Id") {
+                                $('<li>', { text: formatItem(item) }).appendTo($('#competitors'));
+                            }
+                        });
+                    });
             });
-        });
 
-        $("#find").click(function () {
-            $.getJSON(uri + '/' + $("#competitorId").val()).done(function (data) {
-                $('#competitor').text(formatItem(data));
-            }).fail(function (jqXHR, textStatus, err) {
-                $('#competitor').text(err);
-            });
-        });
+            function formatItem(item) {
+                return 'First name: ' + item.FirstName + ' --- Last name: ' + item.LastName + ' --- Birth date: ' + item.BirthDate + ' --- City: '
+                    + item.City + ' --- Country: ' + item.Country;
 
-        $('#competitorId').keypress(function (e) {
-            if (e.which == 13) {
-                $('#find').click();
-                return false;    //<---- Add this line
             }
-        });
-    });
-</script>
+
+        </script>
+    </body>
+</html>
+}
+else
+{
+    Response.Redirect("/Account/Login");
+}

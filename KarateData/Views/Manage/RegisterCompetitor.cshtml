@@ -1,57 +1,88 @@
-﻿﻿
-@{
-    ViewBag.Title = "Register Competitor";
+﻿@{
+    Layout = null;
 }
-<h2>Register Competitor</h2>
-<hr />
-<form action="/action_page.php">
-    <div class="form-group">
-        <label for="competitorId">Competitor Id</label>
-        <input type="text" class="form-control" id="competitorId" required>
-    </div>
-    <div class="form-group">
-        <label for="firstName">First Name</label>
-        <input type="text" class="form-control" id="firstName" required>
-    </div>
-    <div class="form-group">
-        <label for="LastName">Last Name</label>
-        <input type="text" class="form-control" id="lastName" required>
-    </div>
-    <div class="form-group">
-        <label for="birthDate">Date of birth</label>
-        <input type="date" class="form-control" id="birthDate" required>
-    </div>
-    <div class="form-group">
-        <label for="city">City</label>
-        <input type="text" class="form-control" id="city" required>
-    </div>
-    <div class="form-group">
-        <label for="country">Country</label>
-        <input type="text" class="form-control" id="country" required>
-    </div>
-    <button id="register" type="button" class="btn btn-primary">Register</button>
-</form>
-<script src="~/Scripts/jquery-1.10.2.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#register").click(function () {
 
-            var CompetitorId = $("#competitorId").val();
-            var FirstName = $("#firstName").val();
-            var LastName = $("#lastName").val();
-            var BirthDate = $("#birthDate").val();
-            var City = $("#city").val();
-            var Country = $("#country").val();
-            var ApplicationUser_Id = @ViewBag.ApplicationUser_Id;
+@if (Request.IsAuthenticated)
+{
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Create competitor</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    </head>
+    <body>
 
-            $.ajax({
-                url: "http://localhost:49493/Api/Competitors",
-                type: "Post",
-                data: JSON.stringify([CompetitorId, FirstName, LastName, BirthDate, City, Country, ApplicationUser_Id]),
-                contentType: 'application/json; charset=utf-8',
-                success: function () { alert("Competitor registered!"); },
-                error: function () { alert('error'); }
-            });
-        });
-    });
-</script>
+        <div class="container">
+            @Html.ActionLink("Competitors", "Competitors", "Manage")
+            <hr />
+            <h2>Register Competitor</h2>
+            <hr />
+            <div class="row">
+                <div class="col-lg-1 col-md-1"></div>
+                <form id="forma" class="col-lg-3 col-md-3">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" class="form-control" id="firstName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="LastName">Last Name</label>
+                        <input type="text" class="form-control" id="lastName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="birthDate">Date of birth</label>
+                        <input type="date" class="form-control" id="birthDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" id="city" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <input type="text" class="form-control" id="country" required>
+                    </div>
+                    <button onclick="createPost();" type="button" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            function createPost() {
+                var id = "@ViewBag.Id";
+                $(document).ready(function () {
+                    var formData = {
+                        FirstName: $("#firstName").val(),
+                        LastName: $("#lastName").val(),
+                        BirthDate: $("#birthDate").val(),
+                        City: $("#city").val(),
+                        Country: $("#country").val(),
+                        ApplicationUserId: id
+                    };
+                    /*POST*/
+                    $.ajax({
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/API/Competitors",
+                        data: JSON.stringify(formData),
+                        dataType: 'json',
+                        success: function (result, statusText, xhr) {
+                            if (xhr.status === 201)
+                                alert('The competitor has been registered!');
+                        },
+                        error: function (err) {
+                            alert('Bad request ' + err.status);
+                        }
+                    });
+
+                });
+            }
+        </script>
+
+    </body>
+</html>
+}
+else
+{
+    Response.Redirect("/Account/Login");
+}
