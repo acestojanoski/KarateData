@@ -1,0 +1,85 @@
+﻿@{
+    Layout = null;
+}
+
+@if (Request.IsAuthenticated)
+{
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Delete competitor</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    </head>
+    <body>
+
+        <div class="container">
+            @Html.ActionLink("Competitors", "Competitors", "Manage")
+            <hr />
+            <h2>Delete Competitor</h2>
+            <hr />
+            <div class="row">
+                <div class="col-lg-1 col-md-1"></div>
+                <form id="forma" class="col-lg-3 col-md-3">
+                    <div class="form-group">
+                        <label for="competitors">CompetitorId</label>
+                        <select id="competitors"></select>
+                    </div>
+                    <button onclick="deleteCompetitor();" type="button" class="btn btn-primary">Delete</button>
+                </form>
+                <ul id="competitorsPrikaz"></ul>
+            </div>
+        </div>
+
+        <script>
+            /* Getting data for select */
+            var uri = "/API/Competitors"
+            $(document).ready(function () {
+                $.getJSON(uri)
+                    .done(function (data) {
+                        // On success, 'data' contains a list of products.
+                        $.each(data, function (key, item) {
+                            // Add a list item for the product.
+                            if (item.ApplicationUserId == "@ViewBag.Id") {
+                                $('<option>', { text: item.CompetitorId }).appendTo($('#competitors'));
+                                $('<li></li>', { text: formatItem(item) }).appendTo($('#competitorsPrikaz'));
+                            }
+                        });
+                    });
+            });
+
+            function formatItem(item) {
+                return 'CompetitorId: ' + item.CompetitorId + ' --- First name: ' + item.FirstName + ' --- Last name: ' + item.LastName;
+
+            }
+
+            function deleteCompetitor() {
+                $(document).ready(function () {
+                    var id = $("#competitors").val();
+                    /*POST*/
+                    $.ajax({
+                        type: "DELETE",
+                        contentType: "application/json",
+                        url: "/API/Competitors/" + id,
+                        dataType: 'json',
+                        success: function () {                            
+                            alert('The competitor has been deleted!');
+                            location.reload();
+                        },
+                        error: function (err) {
+                            alert('Bad request ' + err.status);
+                        }
+                    })
+
+                });
+            }
+        </script>
+
+    </body>
+</html>
+}
+else
+{
+    Response.Redirect("/Account/Login");
+}

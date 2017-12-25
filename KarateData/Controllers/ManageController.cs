@@ -305,6 +305,17 @@ namespace KarateData.Controllers
             return View();
         }
 
+        //GET: /Manage/DeleteCompetitor
+        public ActionResult DeleteCompetitor()
+        {
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user != null)
+            {
+                ViewBag.Id = user.Id;
+            }
+            return View();
+        }
+
         //GET: /Manage/RegisterCompetitor
         public ActionResult RegisterCompetitor()
         {
