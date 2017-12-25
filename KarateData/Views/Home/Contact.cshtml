@@ -1,17 +1,17 @@
-﻿@{
+﻿﻿@{
     ViewBag.Title = "Contact";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
-
-<address>
-    One Microsoft Way<br />
-    Redmond, WA 98052-6399<br />
-    <abbr title="Phone">P:</abbr>
-    425.555.0100
-</address>
-
-<address>
-    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-</address>
+<div class="row">
+    <div class="col-lg-3 col-md-2 col-sm-1"></div>
+    <div class="col-lg-6 col-md-8 col-sm-10">
+        <h2 class="text-center">@ViewBag.Title</h2><br /><hr />
+        <address class="text-center">
+            If you see any bugs, please <a class="badge" href="mailto:stojanoskii.aleksandar@gmail.com">contact webmaster</a>.<br><br />
+            You may also want to visit us:<br>
+            Partizanksa<br />
+            7000 Bitola<br />
+            Republic of Macedonia
+        </address>
+    </div>
+    <div class="col-lg-3 col-md-2 col-sm-1"></div>
+</div>

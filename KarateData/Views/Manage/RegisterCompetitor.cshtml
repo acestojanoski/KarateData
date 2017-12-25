@@ -1,0 +1,57 @@
+﻿﻿
+@{
+    ViewBag.Title = "Register Competitor";
+}
+<h2>Register Competitor</h2>
+<hr />
+<form action="/action_page.php">
+    <div class="form-group">
+        <label for="competitorId">Competitor Id</label>
+        <input type="text" class="form-control" id="competitorId" required>
+    </div>
+    <div class="form-group">
+        <label for="firstName">First Name</label>
+        <input type="text" class="form-control" id="firstName" required>
+    </div>
+    <div class="form-group">
+        <label for="LastName">Last Name</label>
+        <input type="text" class="form-control" id="lastName" required>
+    </div>
+    <div class="form-group">
+        <label for="birthDate">Date of birth</label>
+        <input type="date" class="form-control" id="birthDate" required>
+    </div>
+    <div class="form-group">
+        <label for="city">City</label>
+        <input type="text" class="form-control" id="city" required>
+    </div>
+    <div class="form-group">
+        <label for="country">Country</label>
+        <input type="text" class="form-control" id="country" required>
+    </div>
+    <button id="register" type="button" class="btn btn-primary">Register</button>
+</form>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#register").click(function () {
+
+            var CompetitorId = $("#competitorId").val();
+            var FirstName = $("#firstName").val();
+            var LastName = $("#lastName").val();
+            var BirthDate = $("#birthDate").val();
+            var City = $("#city").val();
+            var Country = $("#country").val();
+            var ApplicationUser_Id = @ViewBag.ApplicationUser_Id;
+
+            $.ajax({
+                url: "http://localhost:49493/Api/Competitors",
+                type: "Post",
+                data: JSON.stringify([CompetitorId, FirstName, LastName, BirthDate, City, Country, ApplicationUser_Id]),
+                contentType: 'application/json; charset=utf-8',
+                success: function () { alert("Competitor registered!"); },
+                error: function () { alert('error'); }
+            });
+        });
+    });
+</script>
