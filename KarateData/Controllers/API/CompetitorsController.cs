@@ -6,7 +6,6 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Description;
 using KarateData.Models;
@@ -18,16 +17,16 @@ namespace KarateData.Controllers.API
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Competitors
-        public IQueryable<Competitor> GetCompetitors()
+        public IEnumerable<Competitor> GetCompetitors()
         {
-            return db.Competitors;
+            return db.Competitors.Include(a => a.ApplicationUser).ToList();
         }
 
         // GET: api/Competitors/5
         [ResponseType(typeof(Competitor))]
-        public async Task<IHttpActionResult> GetCompetitor(int id)
+        public IHttpActionResult GetCompetitor(int id)
         {
-            Competitor competitor = await db.Competitors.FindAsync(id);
+            Competitor competitor = db.Competitors.Find(id);
             if (competitor == null)
             {
                 return NotFound();
@@ -38,7 +37,7 @@ namespace KarateData.Controllers.API
 
         // PUT: api/Competitors/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutCompetitor(int id, Competitor competitor)
+        public IHttpActionResult PutCompetitor(int id, Competitor competitor)
         {
             if (!ModelState.IsValid)
             {
@@ -54,7 +53,7 @@ namespace KarateData.Controllers.API
 
             try
             {
-                await db.SaveChangesAsync();
+                db.SaveChanges();
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -73,7 +72,7 @@ namespace KarateData.Controllers.API
 
         // POST: api/Competitors
         [ResponseType(typeof(Competitor))]
-        public async Task<IHttpActionResult> PostCompetitor(Competitor competitor)
+        public IHttpActionResult PostCompetitor(Competitor competitor)
         {
             if (!ModelState.IsValid)
             {
@@ -81,23 +80,23 @@ namespace KarateData.Controllers.API
             }
 
             db.Competitors.Add(competitor);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = competitor.CompetitorId }, competitor);
         }
 
         // DELETE: api/Competitors/5
         [ResponseType(typeof(Competitor))]
-        public async Task<IHttpActionResult> DeleteCompetitor(int id)
+        public IHttpActionResult DeleteCompetitor(int id)
         {
-            Competitor competitor = await db.Competitors.FindAsync(id);
+            Competitor competitor = db.Competitors.Find(id);
             if (competitor == null)
             {
                 return NotFound();
             }
 
             db.Competitors.Remove(competitor);
-            await db.SaveChangesAsync();
+            db.SaveChanges();
 
             return Ok(competitor);
         }
