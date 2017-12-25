@@ -212,9 +212,20 @@
     <Compile Include="Migrations\201712250939522_Init.Designer.cs">
       <DependentUpon>201712250939522_Init.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712251022524_Init1.cs" />
+    <Compile Include="Migrations\201712251022524_Init1.Designer.cs">
+      <DependentUpon>201712251022524_Init1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712251029373_Init2.cs" />
+    <Compile Include="Migrations\201712251029373_Init2.Designer.cs">
+      <DependentUpon>201712251029373_Init2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Competitor.cs" />
+    <Compile Include="Models\Event.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\KarateDataDbContext.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -289,6 +300,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Competitor\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -302,6 +314,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712250939522_Init.resx">
       <DependentUpon>201712250939522_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712251022524_Init1.resx">
+      <DependentUpon>201712251022524_Init1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712251029373_Init2.resx">
+      <DependentUpon>201712251029373_Init2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

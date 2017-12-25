@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 
 namespace KarateData.Models
 {
@@ -13,6 +14,9 @@ namespace KarateData.Models
         public string ClubName { get; set; }
         public string Country { get; set; }
         public string Number { get; set; }
+
+        public virtual List<Competitor> Competitors { get; set; }
+        public virtual List<Event> Events { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
